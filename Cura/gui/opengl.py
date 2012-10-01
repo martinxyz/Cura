@@ -236,7 +236,7 @@ def DrawMesh(mesh):
 	glDisableClientState(GL_VERTEX_ARRAY)
 	glDisableClientState(GL_NORMAL_ARRAY);
 
-def DrawGCodeLayer(layer):
+def DrawGCodeLayer(layer, fade=0.0):
 	filamentRadius = profile.getProfileSettingFloat('filament_diameter') / 2
 	filamentArea = math.pi * filamentRadius * filamentRadius
 	lineWidth = profile.getProfileSettingFloat('nozzle_size') / 2 / 10
@@ -250,6 +250,7 @@ def DrawGCodeLayer(layer):
 	innerWallColor = [0,1,0]
 	skirtColor = [0,0.5,0.5]
 	prevPathWasRetract = False
+	fadeColor = [0.2, 0.2, 0.2]
 	
 	glDisable(GL_CULL_FACE)
 	for path in layer:
@@ -272,6 +273,8 @@ def DrawGCodeLayer(layer):
 				c = extrudeColor
 		if path.type == 'retract':
 			c = [0,1,1]
+		if fade:
+			c = [v1*fade + v2*(1.0-fade) for v1, v2 in zip(c, fadeColor)]
 		if path.type == 'extrude':
 			drawLength = 0.0
 			prevNormal = None

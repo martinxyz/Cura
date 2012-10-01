@@ -511,7 +511,7 @@ class PreviewGLCanvas(glcanvas.GLCanvas):
 			for i in xrange(drawUpToLayer - 1, -1, -1):
 				c = 1.0
 				if i < self.parent.layerSpin.GetValue():
-					c = 0.9 - (drawUpToLayer - i) * 0.1
+					c = 0.3 - (drawUpToLayer - i) * 0.1
 					if c < 0.4:
 						c = (0.4 + c) / 2
 					if c < 0.1:
